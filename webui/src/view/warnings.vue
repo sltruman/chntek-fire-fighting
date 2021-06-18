@@ -310,10 +310,12 @@ export default {
     },
     // 下拉刷新列表
     onRefresh() {
-      this.$emit('change');
+      // this.$emit('change');
+      this.loadData();
       this.isLoading = true;
     },
     loadData() {
+      this.nowStatus = [];
       this.$chntek.regions(this.account).then(res => {
         const param = getAllDeviceslist(res, []);
         this.allCount = param.length;
@@ -417,7 +419,7 @@ export default {
     },
     typeChecked() {
       this.typeValue = this.typeCheckList.toString();
-
+      this.loadData();
     }
   }
 };
