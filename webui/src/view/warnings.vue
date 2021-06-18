@@ -271,6 +271,10 @@ export default {
   created() {
     // 初始化加载所有历史数据
     this.account = localStorage.getItem('chntek-account');
+    this.$chntek.waringTypes().then(res => {
+      this.typeList = res;
+    });
+
   },
   mounted() {
     this.getNowStatus();
@@ -310,8 +314,8 @@ export default {
     },
     // 下拉刷新列表
     onRefresh() {
-      // this.$emit('change');
-      this.loadData();
+      this.$emit('change');
+      // this.loadData();
       this.isLoading = true;
     },
     loadData() {

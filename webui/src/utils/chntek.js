@@ -44,6 +44,12 @@ function Chntek() {
         if (data.val) return data.val;
     };
 
+    this.waringTypes = async () => {
+        const {data} = await axios.get(`${proxyHost}/devices/warning-types`, {
+            headers: {'Authorization': this.token}
+        });
+        if (data.val) return data.val;
+    };
 
     this.login = async (account, password) => {
         let res = await axios.get(`${host}/api/user/login`, {params: {account, password}});
