@@ -131,7 +131,7 @@
       </van-tab>
     </van-tabs>
 
-    <van-dialog v-model="typeCheckShow" title="请选择告警类型" @confirm="typeCheckDevice">
+    <van-dialog v-model="typeCheckShow" title="请选择告警类型" @confirm="typeChecked">
       <template>
         <van-checkbox-group v-model="typeCheckList">
           <van-cell-group style="max-height: 500px; overflow: scroll">
@@ -139,10 +139,10 @@
                 v-for="(item, index) in typeList"
                 clickable
                 :key="index"
-                :title="item.name"
+                :title="item"
             >
               <template #right-icon>
-                <van-checkbox :name="item.name" ref="checkboxes"/>
+                <van-checkbox :name="item" ref="checkboxes"/>
               </template>
             </van-cell>
           </van-cell-group>
@@ -178,7 +178,9 @@ import {
   List,
   Tab,
   Tabs,
-  PullRefresh
+  PullRefresh,
+  Checkbox,
+  CheckboxGroup,
 } from 'vant';
 import {getNowFormatDate, formatDateBeforDay, getAllDeviceslist} from '../utils';
 
@@ -226,7 +228,9 @@ export default {
     [List.name]: List,
     [Tabs.name]: Tabs,
     [Tab.name]: Tab,
-    [PullRefresh.name]: PullRefresh
+    [PullRefresh.name]: PullRefresh,
+    [CheckboxGroup.name]: CheckboxGroup,
+    [Checkbox.name]: Checkbox,
   },
   data() {
     return {
@@ -260,8 +264,8 @@ export default {
       isLoading: false,
       typeCheckShow: false,
       typeValue: "",
-      typeList: [],
       typeCheckList: [],
+      typeList: ['低水压', '高水压', '倾斜'],
     };
   },
   created() {
@@ -325,7 +329,7 @@ export default {
       });
     },
     getStatus(val, list) {
-      this.$chntek.warrigs(val, this.nowDate.star, 1).then(res => {
+      this.$chntek.warrigs(val, this.nowDate.star, 1, this.typeValue.toString()).then(res => {
         const data = list.find(a => a.id === val);
         if (data) {
           if (res && res.length > 0) {
@@ -351,7 +355,7 @@ export default {
       }, 1000);
     },
     getHistoryStatus(data) {
-      this.$chntek.warrigs(data.id, this.hisDate.star, 1).then(res => {
+      this.$chntek.warrigs(data.id, this.hisDate.star, 1, this.typeValue.toString()).then(res => {
         if (data) {
           if (res && res.length > 0) {
             this.hisStatus.push({
@@ -379,7 +383,7 @@ export default {
               this.nowCheck = index;
               this.overlayShow = true;
               this.$chntek
-                  .warrigs(data.title.id, data.data.time.substring(0, 10), 20)
+                  .warrigs(data.title.id, data.data.time.substring(0, 10), 20, this.typeValue.toString())
                   .then(res => {
                     this.detailList = res;
                     this.overlayShow = false;
@@ -398,7 +402,7 @@ export default {
               this.nowCheck = index;
               this.overlayShow = true;
               this.$chntek
-                  .warrigs(data.title.id, data.data.time.substring(0, 10), 20)
+                  .warrigs(data.title.id, data.data.time.substring(0, 10), 20, this.typeValue.toString())
                   .then(res => {
                     this.detailList = res;
                     this.overlayShow = false;
@@ -411,7 +415,8 @@ export default {
         });
       }
     },
-    typeCheckDevice() {
+    typeChecked() {
+      this.typeValue = this.typeCheckList.toString();
 
     }
   }
