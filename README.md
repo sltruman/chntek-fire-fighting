@@ -200,7 +200,10 @@ size: 2 #限制查询数据量为2条
             "temperature": "22.5", #压力
             "signal_intensity": "96", #信号强度
             "energy": 100,			#能量
-            "time": "2021-05-09 23:59:14" #检测时间
+            "time": "2021-05-09 23:59:14", #检测时间
+            "unitof":               "mH2O",   #主测量单位
+            "send_interval":        "5",      #发送间隔
+            "instrument_status":    "0",  #仪表状态
 		}
     ]
 }
