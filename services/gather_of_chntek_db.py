@@ -4,20 +4,14 @@ import json
 import os
 import chntek_db as db
 
-
-
-def gather(regions,token,id,today=datetime.datetime.now()):
-    os.makedirs(f'db/devices/{id}',exist_ok=True)
-    os.makedirs(f'db/devices/{id}/status',exist_ok=True)
-    os.makedirs(f'db/devices/{id}/warnings',exist_ok=True)
-
-    # 新接口 查询液位计数据
-    # print("start -new api id:", id)
+# 新接口 查询液位计数据
+def yeweiji_gather(id, today, token):
+    print("start -new api id:", id, ",today:", today)
     r = requests.get(f'http://iot.chntek.com:3410/api/Terminal/LiquidRealTimeData?ids={id}&date_begin={today.date()}&date_end={today.date()}',headers={'Authorization': token})
     r = r.json()
     if r['val']:
-        # print("LiquidRealTimeData id:", id)
-        # print("LiquidRealTimeData var:", r['val'])
+        print("LiquidRealTimeData id:", id)
+        print("LiquidRealTimeData var:", r['val'])
         yeweiji_list = r['val'][id]
         if yeweiji_list: #假如液位计有数据
             try:
@@ -45,11 +39,14 @@ def gather(regions,token,id,today=datetime.datetime.now()):
             yeweiji_list2 = []
             for s in yeweiji_list:
                 info = {
-                    'main_measure':         s['MainMeasure'],
-                    'temperature':          s['Temperature'],                    
-                    'signal_intensity':     s['signal'],
-                    'energy':               s['BatteryPower'],
-                    'time':                 s['MonitoringTime'],
+                    'main_measure':         s['MainMeasure'],       #主测量值
+                    'temperature':          s['Temperature'],       #温度    
+                    'signal_intensity':     s['signal'],            #信号强度
+                    'energy':               s['BatteryPower'],      #电量
+                    'time':                 s['MonitoringTime'],    #采集时间
+                    'unitof':               s['Unitof'],            #主测量单位
+                    'send_interval':        s['SendInterval'],      #发送间隔
+                    'instrument_status':    s['InstrumentStatus'],  #仪表状态
                 }
                 yeweiji_list2.append(info)
 
@@ -59,6 +56,15 @@ def gather(regions,token,id,today=datetime.datetime.now()):
             print(f'gather db/devices/{id}/status/{today.date()}.json')
             with open(f'db/devices/{id}/status/{today.date()}.json','w') as f:
                 f.write(json.dumps(yeweiji_list2,indent=4,ensure_ascii=False))
+
+
+def gather(regions,token,id,today=datetime.datetime.now()):
+    os.makedirs(f'db/devices/{id}',exist_ok=True)
+    os.makedirs(f'db/devices/{id}/status',exist_ok=True)
+    os.makedirs(f'db/devices/{id}/warnings',exist_ok=True)
+
+    #液位计数据
+    yeweiji_gather(id, today, token)
 
     # 查询设备状态    
     r = requests.get(f'http://iot.chntek.com:3410/api/Terminal/HistoryData?ids={id}&date_begin={today.date()}&date_end={today.date()}',headers={'Authorization': token})
