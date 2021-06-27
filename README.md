@@ -179,8 +179,8 @@ size: 2 #限制查询数据量为2条
             "signal_intensity":3,  		 #信号强度 db
             "sluice":"关",			#阀门状态
             "time": "2010-12-10 14:20:00"		#检测时间
-		},
-		{
+	},
+	{
             # LowerFlange：下法兰消防栓
             "hydraulic_pressure":0.257, 		 #水压 MPa
             "temperature":15.8,				 #温度  °C
@@ -190,18 +190,21 @@ size: 2 #限制查询数据量为2条
             "flow":0.0,				#单位m³
             "flow_difference":0.0,	 #单位m³
             "time": "2010-12-10 14:20:00"		#检测时间
-		},
-		{
+	},
+	{
             # cylinders：消防气瓶
-		},
-		{
+	},
+	{
             # LiquidLevel：液位计
             "main_measure": "1.452596", #主测量信息
             "temperature": "22.5", #压力
             "signal_intensity": "96", #信号强度
             "energy": 100,			#能量
-            "time": "2021-05-09 23:59:14" #检测时间
-		}
+            "time": "2021-05-09 23:59:14", #检测时间
+            "unitof":               "mH2O",   #主测量单位
+            "send_interval":        "5",      #发送间隔
+            "instrument_status":    "0",  #仪表状态
+	}
     ]
 }
 ```
