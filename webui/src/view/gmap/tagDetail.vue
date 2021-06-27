@@ -26,10 +26,13 @@
             <van-cell v-if="item.temperature!=undefined" title="当前温度" :value="item.temperature+'°C'"/>
             <van-cell v-if="item.energy!=undefined" title="当前电量" :value="item.energy+'%'"/>
             <van-cell v-if="item.main_measure!=undefined" title="主测量值" :value="item.main_measure+'m'"/>
+            <van-cell v-if="item.unitof!=undefined" title="主测量单位" :value="item.unitof"/>
             <van-cell v-if="item.signal_intensity!=undefined" title="信号强度" :value="item.signal_intensity+'db'"/>
             <van-cell v-if="item.flow!=undefined" title="累计流量" :value="item.flow"/>
             <van-cell v-if="item.flow_difference!=undefined" title="本次流量" :value="item.flow_difference"/>
             <van-cell v-if="item.sluice" title="阀门状态" :value="item.sluice"/>
+            <van-cell v-if="item.send_interval" title="发送间隔" :value="item.send_interval"/>
+            <van-cell v-if="item.instrument_status" title="仪表状态" :value="item.instrument_status == 0 ? '未报警' : '报警'"/>
           </template>
         </van-collapse-item>
       </van-collapse>
