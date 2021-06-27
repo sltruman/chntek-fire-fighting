@@ -56,6 +56,10 @@
             主测量值:
             <span class="flex_1">{{ showTag.main_measure }}m</span>
           </p>
+          <p class="display-flex message" v-if="showTag.unitof">
+            主测量单位:
+            <span class="flex_1">{{ showTag.unitof }}</span>
+          </p>
           <p class="display-flex message" v-if="showTag.signal_intensity">
             信号强度:
             <span class="flex_1">{{ showTag.signal_intensity }}db</span>
@@ -71,6 +75,14 @@
           <p class="display-flex message" v-if="showTag.sluice">
             阀门状态:
             <span class="flex_1">{{ showTag.sluice }}</span>
+          </p>
+          <p class="display-flex message" v-if="showTag.send_interval">
+            发送间隔:
+            <span class="flex_1">{{ showTag.send_interval }}</span>
+          </p>
+          <p class="display-flex message" v-if="showTag.instrument_status">
+            仪表状态:
+            <span class="flex_1">{{ showTag.instrument_status == 0 ? '未报警' : '报警' }}</span>
           </p>
         </div>
         <div style="text-align: center;margin-top: 1rem" v-if="currentList.length>1">
@@ -182,7 +194,10 @@ export default {
           time: data.time,
           sluice: data.sluice,
           flow: data.flow,
-          flow_difference: data.flow_difference
+          flow_difference: data.flow_difference,
+          unitof: data.unitof,
+          send_interval: data.send_interval,
+          instrument_status: data.instrument_status
         });
       }
     },

@@ -134,9 +134,23 @@
                   主测量值
                   <van-tag plain type="primary">{{ item.main_measure }}m</van-tag>
                 </van-col>
+                <van-col v-if="item.unitof!=undefined">
+                  主测量单位
+                  <van-tag plain type="primary">{{ item.unitof }}</van-tag>
+                </van-col>
                 <van-col v-if="item.signal_intensity!=undefined">
                   信号强度
                   <van-tag plain type="success">{{ item.signal_intensity }}db</van-tag>
+                </van-col>
+                <van-col v-if="item.send_interval!=undefined">
+                  发送间隔
+                  <van-tag plain type="success">{{ item.send_interval }}</van-tag>
+                </van-col>
+                <van-col v-if="item.instrument_status!=undefined">
+                  仪表状态
+                  <van-tag plain :type="item.instrument_status == 0 ? 'success' : 'danger'">
+                    {{ item.instrument_status == 0 ? '未报警' : '报警' }}
+                  </van-tag>
                 </van-col>
               </van-row>
 
