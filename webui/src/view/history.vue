@@ -337,10 +337,13 @@ export default {
           this.getNewStatus(this.devicesList.find((a) => a.id === x));
         });
       } else {
-        this.searchBtnOn = this.devicesList.length;
-        this.devicesList.forEach(x => {
-          this.getNewStatus(x);
-        })
+        this.searchBtnOn = 0;
+
+        // 默认可以查询所有设备代码
+        // this.searchBtnOn = this.devicesList.length;
+        // this.devicesList.forEach(x => {
+        //   this.getNewStatus(x);
+        // })
       }
     },
     getNewStatus(data) {
