@@ -84,6 +84,8 @@ export function getDevicesList(str) {
                 return '无线压力表'
             case 'cylinders':
                 return '消防气瓶'
+            case 'LiquidLevel':
+                return '液位计'
         }
     }
     return '';
