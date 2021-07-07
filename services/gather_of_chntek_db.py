@@ -5,7 +5,7 @@ import os
 import chntek_db as db
 
 # 新接口 查询液位计数据
-def yeweiji_gather(id, today, token):
+def yeweiji_gather(regions,id, today, token):
     print("start -new api id:", id, ",today:", today)
     r = requests.get(f'http://iot.chntek.com:3410/api/Terminal/LiquidRealTimeData?ids={id}&date_begin={today.date()}&date_end={today.date()}',headers={'Authorization': token})
     r = r.json()
@@ -64,7 +64,7 @@ def gather(regions,token,id,today=datetime.datetime.now()):
     os.makedirs(f'db/devices/{id}/warnings',exist_ok=True)
 
     #液位计数据
-    yeweiji_gather(id, today, token)
+    yeweiji_gather(regions,id, today, token)
 
     # 查询设备状态    
     r = requests.get(f'http://iot.chntek.com:3410/api/Terminal/HistoryData?ids={id}&date_begin={today.date()}&date_end={today.date()}',headers={'Authorization': token})
@@ -206,8 +206,6 @@ if __name__ == '__main__':
         for county,ids in regions[city].items():
             for id in ids:
                 regions2[id] = city,county
-
-    print(regions2)
 
     for account in db.ids:
         print('start '+account)
