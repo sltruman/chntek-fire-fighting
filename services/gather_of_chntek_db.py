@@ -71,7 +71,11 @@ def gather(regions,token,id,today=datetime.datetime.now()):
     r = r.json()
     
     if not r['val']: return
-    status_list = r['val'][id]
+    try:
+        status_list = r['val'][id]
+    except:
+        return
+
     if not status_list: return
 
     try:
@@ -82,8 +86,8 @@ def gather(regions,token,id,today=datetime.datetime.now()):
 
     primary = {
         'id':id,
-        'longitude':status_list[0]['Longitude'] if status_list[0]['Longitude'] else '', 
-        'latitude': status_list[0]['Latitude'] if status_list[0]['Latitude'] else '',
+        'longitude': 'E'+status_list[0]['Longitude'] if status_list[0]['Longitude'] else '', 
+        'latitude': 'N'+status_list[0]['Latitude'] if status_list[0]['Latitude'] else '',
         'city': city,
         'county': county, 
         'location': status_list[0]['Customerunit'] if status_list[0]['Customerunit'] else '',
